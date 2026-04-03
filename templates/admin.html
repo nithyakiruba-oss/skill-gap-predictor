@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+            text-align: center;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 6px 20px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f2f2f2;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background: #667eea;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background: #5a67d8;
+        }
+
+        .danger {
+            background: red;
+        }
+
+        .danger:hover {
+            background: darkred;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1><i class="fa-solid fa-chart-line"></i> Admin Dashboard</h1>
+
+<div class="container">
+
+    <!-- TOP STATS -->
+    <div class="card">
+        <h3>🏆 Top Performer:</h3>
+        {% if top_student %}
+            <p>Student {{ top_student[0] }} (Score: {{ top_student[4] }})</p>
+        {% else %}
+            <p>No data yet</p>
+        {% endif %}
+
+        <p>📊 Average Score: {{ avg_score }}</p>
+    </div>
+
+    <!-- INSIGHTS -->
+    <div class="card">
+        <h3>📊 Insights</h3>
+        <ul style="text-align:left;">
+            <li>📉 Many students have low communication scores.</li>
+            <li>💻 Higher coding scores improve placement chances.</li>
+            <li>📊 Overall student performance is moderate.</li>
+            <li>🚀 Improving aptitude & communication boosts placement.</li>
+        </ul>
+    </div>
+
+    <!-- TABLE -->
+    <div class="card">
+        <h3>📋 Student Data</h3>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Coding</th>
+                <th>Aptitude</th>
+                <th>Communication</th>
+                <th>Score</th>
+            </tr>
+
+            {% for row in data %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <a href="/export" class="button">📥 Export to Excel</a>
+    <a href="/clear" onclick="return confirmDelete()" class="button danger">🗑 Clear Data</a>
+    <a href="/" class="button">🏠 Home</a>
+
+    <!-- CHART -->
+    <div class="card">
+        <h3>📊 Performance Chart</h3>
+        <canvas id="myChart"></canvas>
+    </div>
+
+</div>
+
+<!-- CHART SCRIPT -->
+<script>
+    const data = {{ data|tojson }};
+
+    const labels = data.map(row => "Student " + row[0]);
+    const coding = data.map(row => row[1]);
+    const aptitude = data.map(row => row[2]);
+    const communication = data.map(row => row[3]);
+
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Coding',
+                    data: coding,
+                    backgroundColor: 'black'
+                },
+                {
+                    label: 'Aptitude',
+                    data: aptitude,
+                    backgroundColor: 'gray'
+                },
+                {
+                    label: 'Communication',
+                    data: communication,
+                    backgroundColor: 'lightgray'
+                }
+            ]
+        }
+    });
+
+    function confirmDelete() {
+        return confirm("Are you sure you want to delete all data?");
+    }
+</script>
+
+</body>
+</html>

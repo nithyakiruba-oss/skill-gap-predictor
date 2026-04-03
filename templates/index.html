@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Skill Gap Predictor</title>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 6px 20px rgba(0,0,0,0.3);
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #5a67d8;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .green { background: #28a745; }
+        .blue { background: #007bff; }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        .top-right {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+        }
+
+        .top-right a {
+            padding: 8px 16px;
+            background: #343a40;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .top-right a:hover {
+            background: #23272b;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- 🔐 Admin Login -->
+<div class="top-right">
+    <a href="/login">🔐 Admin Login</a>
+</div>
+
+<h1><i class="fa-solid fa-chart-line"></i> Skill Gap Predictor</h1>
+
+<div class="container">
+
+    <div class="card">
+
+        <form method="POST" action="/predict">
+
+            <label><i class="fa-solid fa-code"></i> Coding Score</label>
+            <input type="number" name="coding" min="0" max="100" required>
+
+            <label><i class="fa-solid fa-brain"></i> Aptitude Score</label>
+            <input type="number" name="aptitude" min="0" max="100" required>
+
+            <label><i class="fa-solid fa-comments"></i> Communication Score</label>
+            <input type="number" name="communication" min="0" max="100" required>
+
+            <button type="submit">Analyze</button>
+
+        </form>
+
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <a href="/generate" class="button green">📊 Generate Dataset</a>
+    <a href="/admin" class="button blue">📋 View Dashboard</a>
+
+</div>
+
+</body>
+</html>
